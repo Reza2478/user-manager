@@ -3,8 +3,8 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { THEME } from '@/Module/Core/Constant';
 import Users from './Page/Users.tsx';
+import { THEME } from '@/Module/Core/Constant';
 
 function App() {
   return (
