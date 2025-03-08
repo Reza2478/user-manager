@@ -1,6 +1,6 @@
 export interface IUser {
   id: string,
-  createdAt: Date,
+  createdAt: string,
   name: string,
   avatar: string,
   isFavorite: boolean,
