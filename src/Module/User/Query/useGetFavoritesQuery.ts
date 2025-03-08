@@ -1,13 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { UserService } from '@/Module/User/Service';
+import { createApi } from '@reduxjs/toolkit/query/react';
 import { IUser } from '@/Module/User/Model';
+import { USER_API } from '@/Module/User/Constant';
+import { customBaseQuery } from '@/Module/Core/Service';
 
 export const favoritesApi = createApi({
   reducerPath: 'favoritesApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'unused' }),
+  baseQuery: customBaseQuery,
   endpoints: build => ({
     getFavorites: build.query<IUser[], void>({
-      queryFn: () => UserService.getFavorites().then(data => data),
+      query: () => USER_API.GET_FAVORITES,
     }),
   }),
 });
