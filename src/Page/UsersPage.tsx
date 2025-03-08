@@ -8,7 +8,6 @@ import { SearchUsers, Users } from '@/Module/User/Component';
 
 function UsersPage() {
   const favoritesState = useSelector((state: RootState) => state.favorites.favorites);
-  const usersState = useSelector((state: RootState) => state.users.users);
 
   const { data: users, isLoading: usersLoading } = useGetUsersQuery();
   const { data: favorites, isLoading: favoritesLoading } = useGetFavoritesQuery(undefined, {
@@ -31,27 +30,18 @@ function UsersPage() {
   if (usersLoading || favoritesLoading) return <Typography>Loading ...</Typography>;
 
   return (
-    <Container style={{ padding: '10px' }}>
+    <Container className={'my-20'}>
       <Stack
         direction={'column'}
         justifyContent={'center'}
         alignItems={'center'}
-        spacing={2}
+        spacing={3}
       >
-        <Typography variant={'h6'} color={'primary'}>
-          نرم افزار مدیریت کابران
+        <Typography color={'primary'} variant={'h5'} fontWeight={'bold'}>
+          نرم افزار مدیریت کاربران
         </Typography>
         <SearchUsers />
         <Users />
-        {/*{usersState?.map((user) => (*/}
-        {/*  <Stack direction={'row'} spacing={4} key={user.id}>*/}
-        {/*    <Typography variant={'h6'}>{user.name}</Typography>*/}
-        {/*    {user.isFavorite ?*/}
-        {/*      <Fab onClick={() => dispatch(removeFavorites(user as any))} color={'primary'} size={'small'}>*/}
-        {/*        <FavoriteIcon />*/}
-        {/*      </Fab> : <Button onClick={() => dispatch(addFavorites(user as any))}>افزودن</Button>}*/}
-        {/*  </Stack>*/}
-        {/*))}*/}
       </Stack>
 
     </Container>

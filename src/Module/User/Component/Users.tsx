@@ -7,9 +7,9 @@ function Users() {
   const users = useSelector((state: RootState) => state.users.users);
 
   return (
-    <Grid2 container spacing={4}>
+    <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
       {users.map((user) => (
-        <Grid2 key={user.id}>
+        <Grid2 size={{ xs: 4, sm: 4, md: 4 }}>
           <UserCard userDetails={user} />
         </Grid2>
       ))}
