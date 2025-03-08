@@ -1,1 +1,1 @@
-export {default as HttpService} from "./HttpService.ts"
+export { default as customBaseQuery } from './HttpService.ts';

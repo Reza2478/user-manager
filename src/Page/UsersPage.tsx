@@ -1,10 +1,13 @@
 import { Container, Stack, Typography } from '@mui/material';
 import { useGetFavoritesQuery, useGetUsersQuery } from '@/Module/User/Query';
-import { useEffect } from 'react';
+import { lazy, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '@/Module/Core/Store';
 import { setFavorites, setUsers } from '@/Module/User/Store';
-import { SearchUsers, Users } from '@/Module/User/Component';
+import { SearchUsers } from '@/Module/User/Component';
+
+const Users = lazy(() => import('../Module/User/Component/Users/Users.tsx'));
+const UsersSkeleton = lazy(() => import('../Module/User/Component/Users/UsersSkeleton.tsx'));
 
 function UsersPage() {
   const favoritesState = useSelector((state: RootState) => state.favorites.favorites);
@@ -26,9 +29,6 @@ function UsersPage() {
       dispatch(setUsers({ users: users, favorites: favoritesState }));
   }, [dispatch, users, favoritesState]);
 
-
-  if (usersLoading || favoritesLoading) return <Typography>Loading ...</Typography>;
-
   return (
     <Container className={'my-20'}>
       <Stack
@@ -38,12 +38,11 @@ function UsersPage() {
         spacing={3}
       >
         <Typography color={'primary'} variant={'h5'} fontWeight={'bold'}>
-          نرم افزار مدیریت کاربران
+          مدیریت کاربران
         </Typography>
         <SearchUsers />
-        <Users />
+        {usersLoading || favoritesLoading ? <UsersSkeleton /> : <Users />}
       </Stack>
-
     </Container>
   );
 }

@@ -1,34 +1,31 @@
-import axios from 'axios';
-import { ServiceBuilder } from 'ts-retrofit3';
-
+import { BaseQueryFn, fetchBaseQuery, FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { API_BASE, SERVICE_GLOBAL_ERROR } from '@/Module/Core/Constant';
 import { toast } from 'react-toastify';
 
-export const axiosInstance = axios.create({});
+interface CustomError {
+  status: number;
+  data?: { message?: string };
+}
 
-axiosInstance.interceptors.response.use(
-  config => {
-    return config;
-  },
-  failedRequest => {
-    const { response, config, code } = failedRequest;
+const baseQuery = fetchBaseQuery({
+  baseUrl: API_BASE,
+});
 
-    if (!config?.extraMap?.disabledAutoError && code !== 'ERR_CANCELED') {
-      const message = response?.data?.errors?.[0] || SERVICE_GLOBAL_ERROR;
-      toast.error(
-        message,
-      );
+const customBaseQuery: BaseQueryFn<string | {
+  url: string;
+  method: string;
+  body?: unknown
+}, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
+  const result = await baseQuery(args, api, extraOptions);
+  if (result.error) {
+    const error = result.error as CustomError;
+    if (error.status === 404) {
+      toast.error('آدرس مد نظر یافت نشد!');
+    } else {
+      toast.error(SERVICE_GLOBAL_ERROR);
     }
+  }
+  return result;
+};
 
-    return Promise.reject(failedRequest);
-  },
-);
-
-axiosInstance.interceptors.request.use(
-  config => {
-    return config;
-  },
-  error => Promise.reject(error),
-);
-
-export default new ServiceBuilder().setEndpoint(API_BASE).setStandalone(axiosInstance as any);
+export default customBaseQuery;
